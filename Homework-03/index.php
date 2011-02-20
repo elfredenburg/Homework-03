@@ -5,6 +5,7 @@
  * @author Elizabeth Fredenburg
  * @category Advanced PHP -- anm 293
  * 
+ * 
  * Homework 03
  * 
  */
@@ -48,9 +49,9 @@
     $headers = $message -> getHeaders();
     $headers -> addTextHeader('ANM293', 'CNM-270');
   
-    $result = $mailer->send($message);
+    $result = $mailer -> send($message);
   
-  } catch (Exception $e) {
-    
+  } catch (Exception $e){
+    LOG_ERR;
   }
 
