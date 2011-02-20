@@ -13,7 +13,7 @@
   date_default_timezone_set('America/Detroit');
   @ini_set('display_errors','Off');
   @ini_set('log_errors','On');
-  @ini_set('max_execution_time', 300);
+  @ini_set('max_execution_time', 200);
   error_reporting(E_ALL & ~E_STRICT);
   
   if( PATH_SEPARATOR  == ';' )
@@ -29,29 +29,29 @@
   
   require_once 'lib/swift_required.php';
   
-  try {
-      
-    $transport = Swift_SmtpTransport::newInstance ('smtp.gmail.com', 465)
+    $transport = Swift_SmtpTransport::newInstance ('smtp.gmail.com', 465, 'ssl')
       ->setUsername('advphpacc')
       ->setPassword('CNManm293')
     ;
-    
+
     $mailer = Swift_Mailer::newInstance($transport);
-    
+
     $message = Swift_Message::newInstance()
       ->setFrom(array('advphpacc@gmail.com' => 'Elizabeth Fredenburg'))
-      ->setTo(array('elfredenburg@gmail.com' => 'Liz'))
+      ->setTo(array('Bob.Fredenburg@thomsonreuters.com' => 'Bob'))
       ->setSubject('Elizabeth Fredenburg, SWIFT Mailer 4.0.6')
       ->setContentType('text/html')
-      ->setBody('I rock at PHP')
+      ->setBody('I rock at PHP', 'text/html')
       ->setReplyTo('advphpacc@gmail.com')
     ;
+
     $headers = $message -> getHeaders();
     $headers -> addTextHeader('ANM293', 'CNM-270');
   
+  try {
+    
     $result = $mailer -> send($message);
-  
-  } catch (Exception $e){
+
+  } catch (Swift_TransportException $e){
     LOG_ERR;
   }
-
